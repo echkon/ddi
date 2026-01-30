@@ -4,13 +4,12 @@
 **Feedback-Based Quantum Control for Safe and Synergistic Drug Combination Design**
 
 **Authors:**  
-Mai Nguyen Phuong Nhi¹, Lan Nguyen Tran², Le Bin Ho² ³  
+Mai Nguyen Phuong Nhi¹², Lan Nguyen Tran¹², Le Bin Ho³⁴  
 
 ¹ University of Science, Vietnam National University, Ho Chi Minh City 700000, Vietnam  
 ² Vietnam National University, Ho Chi Minh City 700000, Vietnam  
-³ Frontier Research Institute for Interdisciplinary Sciences and  
-   Department of Applied Physics, Graduate School of Engineering,  
-   Tohoku University, Sendai 980-8578, Japan  
+³ Frontier Research Institute for Interdisciplinary Sciences, Tohoku University, Sendai 980-8578, Japan  
+⁴ Department of Applied Physics, Graduate School of Engineering, Tohoku University, Sendai 980-8579, Japan
 
 ---
 
