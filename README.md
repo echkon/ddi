@@ -1,86 +1,85 @@
 # ddi
 
-## Data for:  
-**[TITLE OF THE PAPER]**
+## Data and Scripts for:  
+**Feedback-Based Quantum Control for Safe and Synergistic Drug Combination Design**
 
 **Authors:**  
-[Author 1]¹, [Author 2]² ³  
+Mai Nguyen Phuong Nhi¹, Lan Nguyen Tran², Le Bin Ho² ³  
 
-¹ [Affiliation 1]  
-² [Affiliation 2]  
-³ [Affiliation 3]  
+¹ University of Science, Vietnam National University, Ho Chi Minh City 700000, Vietnam  
+² Vietnam National University, Ho Chi Minh City 700000, Vietnam  
+³ Frontier Research Institute for Interdisciplinary Sciences and  
+   Department of Applied Physics, Graduate School of Engineering,  
+   Tohoku University, Sendai 980-8578, Japan  
 
 ---
 
 ## Overview
 
-This repository contains the numerical data and plotting scripts used in the paper:
+This repository contains the numerical data and plotting scripts associated with the paper:
 
-**[TITLE OF THE PAPER]**
+**Feedback-Based Quantum Control for Safe and Synergistic Drug Combination Design**  
+Mai Nguyen Phuong Nhi, Lan Nguyen Tran, and Le Bin Ho  
+arXiv:2601.18082 (2026)
 
-[Brief description of the paper.  
-You may describe the main idea, methodology, or key contribution here.  
-This section can be kept general and non-technical.]
+Drug combination therapies are widely used in modern medicine, but identifying combinations that are both effective and safe remains a challenging optimization problem due to complex drug–drug interactions (DDIs). This work proposes a quantum-inspired optimization framework in which known synergistic and harmful interactions are encoded into a cost function. A feedback-based quantum algorithm is employed to efficiently search for drug subsets that maximize therapeutic synergy while avoiding adverse interactions. The numerical results demonstrate that the proposed approach can robustly identify high-quality drug combinations using realistic interaction data.
 
 ---
 
 ## File Structure
 
-### Fig1/
-- Fig1a: [Brief description]  
-- Fig1b: [Brief description]  
+### fig1/
+- Numerical data and plotting scripts for Fig. 1
 
-### Fig2_fig3/
-- Fig2: [Brief description]  
-- Fig3: [Brief description]  
+### fig2_fig3/
+- Numerical data and plotting scripts for Figs. 2 and 3
 
-### Fig4/
-- Fig4a: [Brief description]  
-- Fig4b: [Brief description]  
+### fig4/
+- Numerical data and plotting scripts for Fig. 4
 
-### Fig5/
-- Fig5a: [Brief description]  
-- Fig5b: [Brief description]  
+### fig5/
+- Numerical data and plotting scripts for Fig. 5
 
-### Fig6/
-- [Brief description]
+### fig6/
+- Numerical data and plotting scripts for Fig. 6
 
-### Fig7/
-- [Brief description]
+### fig7/
+- Numerical data and plotting scripts for Fig. 7
 
-Each directory contains the raw numerical data and the corresponding Python scripts used to generate the figures in the paper.
+Each directory contains the raw data files and the corresponding Python scripts used to reproduce the figures in the paper.
 
 ---
 
 ## Data Description
 
-**[Method / Dataset 1]:**  
-[Description of how the data is generated and what it represents.]
+**Drug–Drug Interaction Encoding:**  
+Synergistic and harmful drug interactions are encoded as weighted terms in an Ising-type cost function, allowing the drug selection problem to be formulated as a combinatorial optimization task.
 
-**[Method / Dataset 2]:**  
-[Description of alternative methods, comparisons, or benchmarks.]
+**Feedback-Based Optimization:**  
+A feedback-based quantum algorithm is used to iteratively update control parameters based on measurement outcomes, enabling efficient convergence without explicit gradient evaluation.
 
-**[Analysis / Case Study]:**  
-[Optional description of a specific example, experiment, or numerical study.]
+**Numerical Evaluation:**  
+Simulation results based on realistic DDI datasets demonstrate that the method successfully balances safety and synergy, outperforming naive or unstructured selection strategies.
 
 ---
 
 ## Requirements
 
-To reproduce the plots, install:
+To reproduce the numerical results and figures, the following software is required:
 
 - Python ≥ 3.9  
 - NumPy  
 - Matplotlib  
+- Pandas  
 
 (Optional)  
-- Pandas  
-- Seaborn for enhanced figure styling  
+- Seaborn for enhanced visualization  
 
 ---
 
 ## Usage
 
-1. Clone or download this repository:
+1. Clone this repository:
    ```bash
    git clone https://github.com/echkon/ddi.git
+   cd ddi
