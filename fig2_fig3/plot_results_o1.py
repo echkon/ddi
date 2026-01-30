@@ -5,8 +5,9 @@ import glob
 import re
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-FILE_PATTERN = "simulation_data_A_*.npz"
+FILE_PATTERN = os.path.join(BASE_DIR, "simulation_data_A_*.npz")
 
 
 def apply_paper_style(ax, title, xlabel, ylabel):
@@ -57,7 +58,7 @@ def plot_top10_histogram(bitstrings, probs, A_val, filename):
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"   Da luu Top 10 Histogram: {filename}")
+    print(f" Saved Top 10 Histogram: {filename}")
 
 
 def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
@@ -109,18 +110,18 @@ def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"Da luu bieu do TONG HOP: {filename}")
+    print(f"Saved: {filename}")
 
 
 if __name__ == "__main__":
-    print("\n=== BAT DAU VE BIEU DO TU CAC FILE .NPZ ===")
+    print("\n=== Start plotting===")
 
     found_files = glob.glob(FILE_PATTERN)
     if not found_files:
-        print(f"Loi: Khong tim thay file du lieu nao khop mau: {FILE_PATTERN}")
+        print(f"No data has been found: {FILE_PATTERN}")
         exit()
 
-    print(f"Tim thay {len(found_files)} file du lieu.")
+    print(f"Found {len(found_files)}.")
 
     all_energies_history = {}
     all_ground_states = {}
@@ -133,10 +134,10 @@ if __name__ == "__main__":
             A_str_raw = match.group(1)
             A_val_str = A_str_raw.replace("_", ".")
         else:
-            print(f"Warning: Khong doc duoc gia tri A tu ten file: {sim_file}")
+            print(f"Warning: Cannot read A from file: {sim_file}")
             continue
 
-        print(f"\n>> Dang xu ly A = {A_val_str} (File: {sim_file})")
+        print(f"\n>> Proccessing A = {A_val_str} (File: {sim_file})")
 
         try:
             data = np.load(sim_file)
@@ -144,11 +145,10 @@ if __name__ == "__main__":
             probs = data["probs"]
             bitstrings = data["bitstrings"]
 
-            # Lấy dữ liệu times
             if "times" in data:
                 all_times[A_val_str] = data["times"]
             else:
-                print("Warning: Khong tim thay 'times'. Su dung index.")
+                print("Warning: Cannot find 'times'. Using index.")
                 all_times[A_val_str] = np.arange(len(energies))
 
             if "ground_state_energy" in data:
@@ -159,21 +159,22 @@ if __name__ == "__main__":
 
             all_energies_history[A_val_str] = energies
 
-            hist_filename = f"Hist_Top10_A_{A_str_raw}.eps"
+            hist_filename = os.path.join(BASE_DIR, f"Hist_Top10_A_{A_str_raw}.eps")
             plot_top10_histogram(bitstrings, probs, A_val_str, hist_filename)
 
         except Exception as e:
-            print(f"Loi khi doc file {sim_file}: {e}")
+            print(f"Cannot read {sim_file}: {e}")
 
-    print("\n--- DANG VE BIEU DO TONG HOP ---")
+    print("\n--- Plotting Combined Graph ---")
     if all_energies_history:
+        combined_filename = os.path.join(BASE_DIR, "Combined_FALQON_Energy_All_A.eps")
         plot_combined_energies(
             all_energies_history,
             all_ground_states,
             all_times,
-            "Combined_FALQON_Energy_All_A.eps",
+            combined_filename,
         )
     else:
-        print("Khong du du lieu de ve bieu do tong hop.")
+        print("Cannot find data to plot.")
 
-    print("\n=== HOAN TAT ===")
+    print("\n=== DONE ===")

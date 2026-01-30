@@ -5,8 +5,9 @@ import glob
 import re
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-FILE_PATTERN = "simulation_data_ki_*.npz"
+FILE_PATTERN = os.path.join(BASE_DIR, "simulation_data_ki_*.npz")
 
 
 def apply_paper_style(ax, title, xlabel, ylabel):
@@ -56,7 +57,7 @@ def plot_top10_histogram(bitstrings, probs, k_val, filename):
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"   Da luu Top 10 Histogram: {filename}")
+    print(f"   Saved Top 10 Histogram: {filename}")
 
 
 def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
@@ -106,18 +107,18 @@ def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"Da luu bieu do TONG HOP: {filename}")
+    print(f"Saved combined plot: {filename}")
 
 
 if __name__ == "__main__":
-    print("\n=== BAT DAU VE BIEU DO TU CAC FILE .NPZ (SCO - k) ===")
+    print("\n=== START PLOTTING FROM .NPZ FILES (SCO - k) ===")
 
     found_files = glob.glob(FILE_PATTERN)
     if not found_files:
-        print(f"Loi: Khong tim thay file: {FILE_PATTERN}")
+        print(f"Error: No files found matching pattern: {FILE_PATTERN}")
         exit()
 
-    print(f"Tim thay {len(found_files)} file du lieu.")
+    print(f"Found {len(found_files)} data files.")
 
     all_energies_history = {}
     all_ground_states = {}
@@ -130,7 +131,7 @@ if __name__ == "__main__":
         else:
             continue
 
-        print(f"\n>> Dang xu ly k = {k_val_str} (File: {sim_file})")
+        print(f"\n>> Processing k = {k_val_str} (File: {sim_file})")
 
         try:
             data = np.load(sim_file)
@@ -141,7 +142,7 @@ if __name__ == "__main__":
             if "times" in data:
                 all_times[k_val_str] = data["times"]
             else:
-                print("Warning: Khong tim thay 'times'. Su dung index mac dinh (0-10).")
+                print("Warning: 'times' not found. Using default index (0–10).")
                 all_times[k_val_str] = np.linspace(0, 10, len(energies))
 
             if "ground_state_energy" in data:
@@ -152,22 +153,24 @@ if __name__ == "__main__":
 
             all_energies_history[k_val_str] = energies
 
-            hist_filename = f"Hist_Top10_k_{k_val_str.replace('.', '_')}.eps"
+            hist_filename = os.path.join(
+                BASE_DIR, f"Hist_Top10_k_{k_val_str.replace('.', '_')}.eps"
+            )
             plot_top10_histogram(bitstrings, probs, k_val_str, hist_filename)
 
         except Exception as e:
-            print(f"Loi khi doc file {sim_file}: {e}")
+            print(f"Error while reading {sim_file}: {e}")
 
-    # Vẽ biểu đồ tổng hợp
-    print("\n--- DANG VE BIEU DO TONG HOP ---")
+    print("\n--- PLOTTING COMBINED ENERGY GRAPH ---")
     if all_energies_history:
+        combined_filename = os.path.join(BASE_DIR, "Combined_FALQON_Energy_All_k.eps")
         plot_combined_energies(
             all_energies_history,
             all_ground_states,
             all_times,
-            "Combined_FALQON_Energy_All_k.eps",
+            combined_filename,
         )
     else:
-        print("Khong du du lieu de ve bieu do tong hop.")
+        print("No data available for combined plot.")
 
-    print("\n=== HOAN TAT ===")
+    print("\n=== FINISHED ===")

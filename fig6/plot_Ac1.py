@@ -3,10 +3,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import glob
 import re
+import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-FILE_PATTERN = "simulation_data_Ac_*.npz"
-
+FILE_PATTERN = os.path.join(BASE_DIR, "simulation_data_Ac_*.npz")
 
 DRUG_LIST = ["DEX", "FPV", "HCQ", "LPV", "MOV", "NTZ", "PAX", "RBV", "RDV"]
 
@@ -74,7 +75,7 @@ def plot_top10_histogram(bitstrings, probs, A_val, filename):
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"   Da luu Top 10 Histogram: {filename}")
+    print(f"   Saved Top 10 Histogram: {filename}")
 
 
 def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
@@ -124,18 +125,18 @@ def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"Da luu bieu do TONG HOP: {filename}")
+    print(f"Saved combined plot: {filename}")
 
 
 if __name__ == "__main__":
-    print("\n=== BAT DAU VE BIEU DO TU CAC FILE .NPZ ===")
+    print("\n=== START PLOTTING FROM .NPZ FILES ===")
 
     found_files = glob.glob(FILE_PATTERN)
     if not found_files:
-        print(f"Loi: Khong tim thay file du lieu nao khop mau: {FILE_PATTERN}")
+        print(f"Error: No data files found matching pattern: {FILE_PATTERN}")
         exit()
 
-    print(f"Tim thay {len(found_files)} file du lieu.")
+    print(f"Found {len(found_files)} data files.")
 
     all_energies_history = {}
     all_ground_states = {}
@@ -150,7 +151,7 @@ if __name__ == "__main__":
         else:
             continue
 
-        print(f"\n>> Dang xu ly A = {A_val_str} (File: {sim_file})")
+        print(f"\n>> Processing A = {A_val_str} (File: {sim_file})")
 
         try:
             data = np.load(sim_file)
@@ -161,7 +162,7 @@ if __name__ == "__main__":
             if "times" in data:
                 all_times[A_val_str] = data["times"]
             else:
-                print("Warning: Khong tim thay 'times' trong file. Su dung index.")
+                print("Warning: 'times' not found. Using index.")
                 all_times[A_val_str] = np.arange(len(energies))
 
             if "ground_state_energy" in data:
@@ -173,36 +174,35 @@ if __name__ == "__main__":
             all_energies_history[A_val_str] = energies
 
             print(f"   [Decoding Top 3 Results for A={A_val_str}]")
-
             sorted_idx = np.argsort(probs)[::-1]
 
             for k in range(min(3, len(sorted_idx))):
                 idx = sorted_idx[k]
                 bs = bitstrings[idx]
                 prob_val = probs[idx]
-
                 decoded_names = decode_drugs(bs, DRUG_LIST)
 
                 print(f"   #{k+1}: Bitstring {bs} (Prob: {prob_val:.4f})")
                 print(f"       -> Drugs: [{decoded_names}]")
-            print("-" * 40)
-            # ----------------------------------------
 
-            hist_filename = f"Hist_Top10_Ac_{A_str_raw}.eps"
+            print("-" * 40)
+
+            hist_filename = os.path.join(BASE_DIR, f"Hist_Top10_Ac_{A_str_raw}.eps")
             plot_top10_histogram(bitstrings, probs, A_val_str, hist_filename)
 
         except Exception as e:
-            print(f"Loi khi doc file {sim_file}: {e}")
+            print(f"Error while reading {sim_file}: {e}")
 
-    print("\n--- DANG VE BIEU DO TONG HOP ---")
+    print("\n--- PLOTTING COMBINED ENERGY GRAPH ---")
     if all_energies_history:
+        combined_filename = os.path.join(BASE_DIR, "Combined_FALQON_Energy_All_Ac.eps")
         plot_combined_energies(
             all_energies_history,
             all_ground_states,
             all_times,
-            "Combined_FALQON_Energy_All_Ac.eps",
+            combined_filename,
         )
     else:
-        print("Khong du du lieu de ve bieu do tong hop.")
+        print("No data available for combined plot.")
 
-    print("\n=== HOAN TAT ===")
+    print("\n=== FINISHED ===")

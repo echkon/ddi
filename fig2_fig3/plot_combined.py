@@ -4,9 +4,10 @@ import glob
 import re
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-FILE_PATTERN_NO_ITE = "simulation_data_A_*.npz"
-FILE_PATTERN_WITH_ITE = "simulation_data_Ai_*.npz"
+FILE_PATTERN_NO_ITE = os.path.join(BASE_DIR, "simulation_data_A_*.npz")
+FILE_PATTERN_WITH_ITE = os.path.join(BASE_DIR, "simulation_data_Ai_*.npz")
 
 
 def apply_paper_style(ax, title, xlabel, ylabel):
@@ -53,9 +54,7 @@ def extract_data(file_pattern, regex_pattern):
 
 
 if __name__ == "__main__":
-    print("--- ĐANG TỔNG HỢP DỮ LIỆU ---")
-
-    # 1. Đọc dữ liệu
+    print("Data Collecting")
     energies_A, gs_A, times_A = extract_data(
         FILE_PATTERN_NO_ITE, r"simulation_data_A_(\d+(?:_\d+)?)\.npz"
     )
@@ -63,13 +62,11 @@ if __name__ == "__main__":
         FILE_PATTERN_WITH_ITE, r"simulation_data_Ai_(\d+(?:_\d+)?)\.npz"
     )
 
-    # Tìm A chung
     common_A = sorted(list(set(energies_A.keys()) | set(energies_Ai.keys())), key=float)
     if not common_A:
-        print("Không tìm thấy dữ liệu.")
+        print("No data has been found")
         exit()
 
-    # 2. Khởi tạo biểu đồ (1 Hình duy nhất)
     plt.figure(figsize=(12, 8))
     ax = plt.gca()
 
@@ -142,11 +139,11 @@ if __name__ == "__main__":
 
     plt.tight_layout()
 
-    output_file = "FALQON_Comparison.png"
+    output_file = os.path.join(BASE_DIR, "FALQON_Comparison.png")
     plt.savefig(output_file, dpi=300, bbox_inches="tight")
     plt.savefig(
         output_file.replace(".png", ".eps"), format="eps", dpi=300, bbox_inches="tight"
     )
     plt.close()
 
-    print(f"Đã lưu biểu đồ: {output_file}")
+    print(f"Saved: {output_file}")
