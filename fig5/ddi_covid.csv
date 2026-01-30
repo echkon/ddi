@@ -1,0 +1,15 @@
+drug_i,drug_j,kind,weight
+RBV,RDV,synergy,0.95
+MOV,PAX,synergy,0.90
+MOV,RDV,synergy,0.80
+MOV,RBV,synergy,0.60
+PAX,RDV,synergy,0.55
+FPV,MOV,synergy,0.95
+NTZ,RDV,synergy,0.85
+HCQ,RDV,harm,0.95
+HCQ,PAX,harm,0.40
+LPV,PAX,harm,0.75
+LPV,RDV,harm,0.40
+DEX,HCQ,harm,0.75
+DEX,PAX,harm,0.30
+FPV,LPV,harm,0.70
