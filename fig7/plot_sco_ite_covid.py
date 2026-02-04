@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import glob
 import re
 import matplotlib.ticker as ticker

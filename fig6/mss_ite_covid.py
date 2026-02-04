@@ -1,5 +1,4 @@
 import numpy as np
-import networkx as nx
 from qiskit.quantum_info import SparsePauliOp
 import pandas as pd
 from scipy.sparse import csr_matrix
