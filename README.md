@@ -27,23 +27,102 @@ Drug combination therapies are widely used in modern medicine, but identifying c
 
 ## File Structure
 
+### algorithm/
+
+Core algorithm implementations.
+
+- `falqon.py`  
+  Standard FALQON optimizer.
+
+- `falqon_compact.py`  
+  Compact version of FALQON incorporating Imaginary Time Evolution (ITE).
+
+
+### data/
+
+Input datasets for drug–drug interaction (DDI) analysis.
+
+- `ddi_a.csv`  
+  Main DDI dataset used in 6-drug simulations.
+
+- `ddi_r.csv`  
+  Implicit DDI dataset for 6-drug network plotting.
+
+- `ddi_covid.csv`  
+  COVID-related DDI dataset.
+
+- `node_mapping_6_drugs.csv`  
+  Mapping between abstract node labels (A–F) of ddi_r.csv to real drug names.
+
+
 ### fig1/
-- Numerical data and plotting scripts for Fig. 1
+
+Scripts for generating Figure 1.
+
+- `graph_6_drugs.py`  
+  Visualization of the 6-drug interaction network.
+
 
 ### fig2_fig3/
-- Numerical data and plotting scripts for Figs. 2 and 3
+
+Numerical simulations and plots for Figures 2 and 3 (6-drug MSS problem).
+
+- `mss_6d.py`  
+  Run FALQON for the 6-drug MSS problem.
+
+- `mss_ite_6d.py`  
+  MSS problem using FALQON + ITE.
+
+- `plot_mss_6d.py`  
+  Plot results of standard FALQON.
+
+- `plot_mss_ite_6d.py`  
+  Plot results of FALQON + ITE.
+
+- `plot_combined.py`  
+  Comparison plot for standard FALQON and FALQON + ITE.
+
 
 ### fig4/
-- Numerical data and plotting scripts for Fig. 4
+
+Numerical simulations and plotting scripts for Figure 4 (6-drug SCO problem). 
+
+- `sco_k_ite.py`  
+  SCO problem using FALQON + ITE for different size k.
+
+- `plot_sco_k_ite.py`  
+  Visualization of Fig. 4 results.
+
 
 ### fig5/
-- Numerical data and plotting scripts for Fig. 5
+
+Scripts for generating Figure 5.
+
+- `graph_covid.py`  
+  Network visualization for the COVID-related DDI dataset.
+
 
 ### fig6/
-- Numerical data and plotting scripts for Fig. 6
+
+Numerical simulations and plots for Figure 6 (COVID MSS problem).
+
+- `mss_ite_covid.py`  
+  MSS simulation on COVID dataset using FALQON + ITE.
+
+- `plot_mss_ite_covid.py`  
+  Plotting results for Fig. 6.
+
 
 ### fig7/
-- Numerical data and plotting scripts for Fig. 7
+
+Numerical simulations and plots for Figure 7 (COVID SCO problem).
+
+- `sco_ite_covid.py`  
+  SCO problem on COVID dataset using FALQON + ITE.
+
+- `plot_sco_ite_covid.py`  
+  Visualization of Fig. 7 results.
+
 
 Each directory contains the raw data files and the corresponding Python scripts used to reproduce the figures in the paper.
 
