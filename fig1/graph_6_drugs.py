@@ -1,12 +1,14 @@
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
-import io
 import os
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DATA_FILE = os.path.join(BASE_DIR, "ddi_r.csv")
+DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+
+df = pd.read_csv(os.path.join(DATA_DIR, "ddi_r.csv"))
 
 
 def plot_drug_network(df, fn=None):
@@ -27,7 +29,16 @@ def plot_drug_network(df, fn=None):
         )
 
     # Graph layout
-    pos = nx.spring_layout(G, seed=45)
+    pos = {
+        "Everolimus": (0.0, 1.0),
+        "Topotecan": (-1.2, 0.6),
+        "Metformin": (1.2, 0.6),
+        "Cabazitaxel": (-0.6, -1.0),
+        "Erlotinib": (0.8, -1.0),
+        "Ritonavir": (0.2, -0.1),
+    }
+
+    pos = pos
 
     # Separate edge types
     harmful_edges = [(u, v) for u, v, d in G.edges(data=True) if d["kind"] == "harm"]
@@ -87,18 +98,17 @@ def plot_drug_network(df, fn=None):
         font_color="black",
     )
 
-    # Title and legend
     plt.title("Drug–Drug Interaction Network", fontsize=16)
     plt.legend(
         handles=[
-            plt.Line2D([0], [0], color="red", lw=2, label="Harmful interaction"),
+            plt.Line2D([0], [0], color="red", lw=2, label="harmful"),
             plt.Line2D(
                 [0],
                 [0],
                 color="green",
                 lw=2,
                 ls="--",
-                label="Synergistic interaction",
+                label="synergy",
             ),
         ],
         loc="best",
@@ -106,7 +116,6 @@ def plot_drug_network(df, fn=None):
 
     plt.axis("off")
 
-    # Save or display
     if fn:
         plt.savefig(fn, bbox_inches="tight")
         print(f"Graph saved to file: {fn}")
@@ -115,11 +124,5 @@ def plot_drug_network(df, fn=None):
 
 
 if __name__ == "__main__":
-    # Load data from the same directory as the script
-    drug_df = pd.read_csv(DATA_FILE)
-
-    # Output file path
-    output_file = os.path.join(BASE_DIR, "Drug_graph_paper.png")
-
-    # Plot network
-    plot_drug_network(drug_df, fn=output_file)
+    output_file = os.path.join(BASE_DIR, "DDI_network_6_drugs.png")
+    plot_drug_network(df, fn=output_file)

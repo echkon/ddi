@@ -3,9 +3,13 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CSV_FILE = os.path.join(BASE_DIR, "ddi_covid.csv")
-OUTPUT_FILE = os.path.join(BASE_DIR, "Drug_graph_covid.png")
+
+DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+
+CSV_FILE = os.path.join(DATA_DIR, "ddi_covid.csv")
+OUTPUT_FILE = os.path.join(BASE_DIR, "DDI_network_6_drugs_covid.png")
 
 
 def plot_drug_network(df, fn=None, seed=50):
@@ -83,7 +87,7 @@ def plot_drug_network(df, fn=None, seed=50):
             plt.Line2D([0], [0], color="green", lw=4, ls="--", label="Synergistic"),
         ],
         loc="best",
-        fontsize=26,
+        fontsize=24,
     )
 
     plt.axis("off")
@@ -93,15 +97,10 @@ def plot_drug_network(df, fn=None, seed=50):
         plt.savefig(fn, bbox_inches="tight", dpi=300)
         print(f"Graph saved to file: {fn}")
 
-        eps_fn = fn.rsplit(".", 1)[0] + ".eps" if "." in fn else fn + ".eps"
-        plt.savefig(eps_fn, format="eps", bbox_inches="tight")
-        print(f"Graph saved to EPS file: {eps_fn}")
     else:
         plt.show()
 
 
-try:
-    drug_df = pd.read_csv(CSV_FILE)
-    plot_drug_network(drug_df, fn=OUTPUT_FILE, seed=45)
-except FileNotFoundError:
-    print(f"CSV file not found: {CSV_FILE}")
+if __name__ == "__main__":
+    df = pd.read_csv(CSV_FILE)
+    plot_drug_network(df, fn=OUTPUT_FILE, seed=45)

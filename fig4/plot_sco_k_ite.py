@@ -5,9 +5,17 @@ import glob
 import re
 import os
 
+# ==============================================================================
+# PATH CONFIGURATION
+# ==============================================================================
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 FILE_PATTERN = os.path.join(BASE_DIR, "simulation_data_ki_*.npz")
+
+# ==============================================================================
+# PLOTTING UTILITIES
+# ==============================================================================
 
 
 def apply_paper_style(ax, title, xlabel, ylabel):
@@ -109,6 +117,10 @@ def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
     plt.close()
     print(f"Saved combined plot: {filename}")
 
+
+# ==============================================================================
+# MAIN PROGRAM
+# ==============================================================================
 
 if __name__ == "__main__":
     print("\n=== START PLOTTING FROM .NPZ FILES (SCO - k) ===")

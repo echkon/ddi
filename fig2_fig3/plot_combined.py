@@ -4,10 +4,19 @@ import glob
 import re
 import os
 
+# ==============================================================================
+# PATH CONFIGURATION
+# ==============================================================================
+
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 FILE_PATTERN_NO_ITE = os.path.join(BASE_DIR, "simulation_data_A_*.npz")
 FILE_PATTERN_WITH_ITE = os.path.join(BASE_DIR, "simulation_data_Ai_*.npz")
+
+# ==============================================================================
+# PLOTTING UTILITIES
+# ==============================================================================
 
 
 def apply_paper_style(ax, title, xlabel, ylabel):
@@ -52,6 +61,10 @@ def extract_data(file_pattern, regex_pattern):
 
     return data_dict, ground_states, time_axes
 
+
+# ==============================================================================
+# MAIN PROGRAM
+# ==============================================================================
 
 if __name__ == "__main__":
     print("Data Collecting")

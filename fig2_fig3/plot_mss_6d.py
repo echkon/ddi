@@ -3,42 +3,29 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import glob
 import re
-import matplotlib.ticker as ticker
+import os
 
+# ==============================================================================
+# PATH CONFIGURATION
+# ==============================================================================
 
-FILE_PATTERN = "simulation_data_Bc_*.npz"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DRUG_LIST = ["DEX", "FPV", "HCQ", "LPV", "MOV", "NTZ", "PAX", "RBV", "RDV"]
+FILE_PATTERN = os.path.join(BASE_DIR, "simulation_data_A_*.npz")
+
+# ==============================================================================
+# PLOTTING UTILITIES
+# ==============================================================================
 
 
 def apply_paper_style(ax, title, xlabel, ylabel):
-    # ax.set_title(title, fontsize=16, pad=15, fontweight="bold")
-    ax.set_xlabel(xlabel, fontsize=26, labelpad=8)
-    ax.set_ylabel(ylabel, fontsize=26, labelpad=8)
+    ax.set_title(title, fontsize=16, pad=15, fontweight="bold")
+    ax.set_xlabel(xlabel, fontsize=14, labelpad=8)
+    ax.set_ylabel(ylabel, fontsize=14, labelpad=8)
     ax.tick_params(axis="both", which="major", labelsize=12)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.grid(True, linestyle=":", alpha=0.001)
-
-    for spine in ax.spines.values():
-        spine.set_linewidth(2.0)
-
-    ax.tick_params(axis="both", which="major", width=2.0, length=6)
-
-
-def decode_drugs(bitstring, drug_list):
-    selected = []
-    n = len(bitstring)
-
-    for i, char in enumerate(bitstring):
-        if char == "1":
-            qubit_idx = n - 1 - i
-            if qubit_idx < len(drug_list):
-                selected.append(drug_list[qubit_idx])
-            else:
-                selected.append(f"Unknown_q{qubit_idx}")
-
-    return ", ".join(selected) if selected else "No Drugs Selected"
+    ax.grid(True, linestyle=":", alpha=0.6)
 
 
 def plot_top10_histogram(bitstrings, probs, A_val, filename):
@@ -79,16 +66,10 @@ def plot_top10_histogram(bitstrings, probs, A_val, filename):
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"   Da luu Top 10 Histogram: {filename}")
+    print(f" Saved Top 10 Histogram: {filename}")
 
 
 def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
-    plt.rcParams.update(
-        {
-            "mathtext.fontset": "stix",
-        }
-    )
-
     plt.figure(figsize=(12, 8))
     ax = plt.gca()
 
@@ -107,10 +88,10 @@ def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
         plt.plot(
             t_axis,
             energies,
-            label=f"$\gamma$={A_val}",
-            linewidth=4.0,
+            label=f"FALQON Energy (A={A_val})",
+            linewidth=1.5,
             color=color,
-            alpha=1,
+            alpha=0.9,
         )
 
         if A_val in gs_dict:
@@ -119,10 +100,12 @@ def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
                 y=gs_energy,
                 color=color,
                 linestyle="--",
-                linewidth=2.5,
-                alpha=1,
+                linewidth=1,
+                alpha=0.6,
                 label="_nolegend_",
             )
+
+    ax.set_ylim(-3.1, -2)
 
     apply_paper_style(
         ax,
@@ -130,58 +113,43 @@ def plot_combined_energies(energy_dict, gs_dict, times_dict, filename):
         "Time (t)",
         "Energy",
     )
-
-    ax.set_ylim(-2.8, 5.5)
-    ax.tick_params(axis="both", which="major", labelsize=30)
-    for label in ax.get_xticklabels() + ax.get_yticklabels():
-        label.set_fontfamily("sans-serif")
-    # Tiêu đề trục X
-    ax.set_xlabel(r"$\mathit{t}$", fontsize=45)
-    # Tiêu đề trục Y
-    ax.set_ylabel(r"$\mathit{E(t)}$", fontsize=45)
-    ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
-    ax.xaxis.set_major_locator(ticker.MultipleLocator(2))
-
-    plt.legend(
-        fontsize=30,
-        loc="upper right",
-        bbox_to_anchor=(0.95, 0.95),
-        borderpad=1,
-        labelspacing=1,
-        handlelength=3.0,
-        handletextpad=1.0,
-    )
+    plt.legend(fontsize=11, loc="upper right")
     plt.tight_layout()
     plt.savefig(filename, format="eps", dpi=300)
     plt.savefig(filename.replace(".eps", ".png"), format="png", dpi=300)
     plt.close()
-    print(f"Da luu bieu do TONG HOP: {filename}")
+    print(f"Saved: {filename}")
 
+
+# ==============================================================================
+# MAIN PROGRAM
+# ==============================================================================
 
 if __name__ == "__main__":
-    print("\n=== BAT DAU VE BIEU DO TU CAC FILE .NPZ ===")
+    print("\n=== Start plotting===")
 
     found_files = glob.glob(FILE_PATTERN)
     if not found_files:
-        print(f"Loi: Khong tim thay file du lieu nao khop mau: {FILE_PATTERN}")
+        print(f"No data has been found: {FILE_PATTERN}")
         exit()
 
-    print(f"Tim thay {len(found_files)} file du lieu.")
+    print(f"Found {len(found_files)}.")
 
     all_energies_history = {}
     all_ground_states = {}
     all_times = {}
 
     for sim_file in found_files:
-        match = re.search(r"Bc_(\d+(?:_\d+)?)", sim_file)
+        match = re.search(r"simulation_data_A_(\d+(?:_\d+)?)", sim_file)
 
         if match:
             A_str_raw = match.group(1)
             A_val_str = A_str_raw.replace("_", ".")
         else:
+            print(f"Warning: Cannot read A from file: {sim_file}")
             continue
 
-        print(f"\n>> Dang xu ly A = {A_val_str} (File: {sim_file})")
+        print(f"\n>> Proccessing A = {A_val_str} (File: {sim_file})")
 
         try:
             data = np.load(sim_file)
@@ -192,7 +160,7 @@ if __name__ == "__main__":
             if "times" in data:
                 all_times[A_val_str] = data["times"]
             else:
-                print("Warning: Khong tim thay 'times' trong file. Su dung index.")
+                print("Warning: Cannot find 'times'. Using index.")
                 all_times[A_val_str] = np.arange(len(energies))
 
             if "ground_state_energy" in data:
@@ -203,36 +171,22 @@ if __name__ == "__main__":
 
             all_energies_history[A_val_str] = energies
 
-            print(f"   [Decoding Top 3 Results for A={A_val_str}]")
-
-            sorted_idx = np.argsort(probs)[::-1]
-
-            for k in range(min(3, len(sorted_idx))):
-                idx = sorted_idx[k]
-                bs = bitstrings[idx]
-                prob_val = probs[idx]
-
-                decoded_names = decode_drugs(bs, DRUG_LIST)
-
-                print(f"   #{k+1}: Bitstring {bs} (Prob: {prob_val:.4f})")
-                print(f"       -> Drugs: [{decoded_names}]")
-            print("-" * 40)
-
-            hist_filename = f"Hist_Top10_Bc_{A_str_raw}.eps"
+            hist_filename = os.path.join(BASE_DIR, f"Hist_Top10_A_{A_str_raw}.eps")
             plot_top10_histogram(bitstrings, probs, A_val_str, hist_filename)
 
         except Exception as e:
-            print(f"Loi khi doc file {sim_file}: {e}")
+            print(f"Cannot read {sim_file}: {e}")
 
-    print("\n--- DANG VE BIEU DO TONG HOP ---")
+    print("\n--- Plotting Combined Graph ---")
     if all_energies_history:
+        combined_filename = os.path.join(BASE_DIR, "Combined_FALQON_Energy_All_A.eps")
         plot_combined_energies(
             all_energies_history,
             all_ground_states,
             all_times,
-            "Combined_FALQON_Energy_All_Bc.eps",
+            combined_filename,
         )
     else:
-        print("Khong du du lieu de ve bieu do tong hop.")
+        print("Cannot find data to plot.")
 
-    print("\n=== HOAN TAT ===")
+    print("\n=== DONE ===")
