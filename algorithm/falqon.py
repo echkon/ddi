@@ -1,5 +1,6 @@
 import numpy as np
-import tqix as tq
+
+# import tqix as tq
 import itertools
 import matplotlib.pyplot as plt
 from qiskit.quantum_info import SparsePauliOp
