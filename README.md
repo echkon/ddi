@@ -67,10 +67,10 @@ Scripts for generating Figure 1.
 
 Numerical simulations and plots for Figures 2 and 3 (6-drug MSS problem).
 
-- `mss_6d.py`  
+- `run_mss_6d.py`  
   Run FALQON for the 6-drug MSS problem.
 
-- `mss_ite_6d.py`  
+- `run_mss_ite_6d.py`  
   MSS problem using FALQON + ITE.
 
 - `plot_mss_6d.py`  
@@ -87,7 +87,7 @@ Numerical simulations and plots for Figures 2 and 3 (6-drug MSS problem).
 
 Numerical simulations and plotting scripts for Figure 4 (6-drug SCO problem). 
 
-- `sco_k_ite.py`  
+- `run_sco_k_ite.py`  
   SCO problem using FALQON + ITE for different size k.
 
 - `plot_sco_k_ite.py`  
@@ -106,7 +106,7 @@ Scripts for generating Figure 5.
 
 Numerical simulations and plots for Figure 6 (COVID MSS problem).
 
-- `mss_ite_covid.py`  
+- `run_mss_ite_covid.py`  
   MSS simulation on COVID dataset using FALQON + ITE.
 
 - `plot_mss_ite_covid.py`  
@@ -117,7 +117,7 @@ Numerical simulations and plots for Figure 6 (COVID MSS problem).
 
 Numerical simulations and plots for Figure 7 (COVID SCO problem).
 
-- `sco_ite_covid.py`  
+- `run_sco_ite_covid.py`  
   SCO problem on COVID dataset using FALQON + ITE.
 
 - `plot_sco_ite_covid.py`  
