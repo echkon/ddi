@@ -1,0 +1,16 @@
+=== BRUTE FORCE RESULT ===
+
+Alpha = 4.5
+N = 9
+Total configurations = 512
+
+All ground-state configurations:
+010011111 -> ['FPV', 'MOV', 'NTZ', 'PAX', 'RBV', 'RDV'] | E = -6.0000
+110011011 -> ['DEX', 'FPV', 'MOV', 'NTZ', 'RBV', 'RDV'] | E = -6.0000
+
+Top 5 solutions:
+010011111 -> ['FPV', 'MOV', 'NTZ', 'PAX', 'RBV', 'RDV'] | E = -6.0000
+110011011 -> ['DEX', 'FPV', 'MOV', 'NTZ', 'RBV', 'RDV'] | E = -6.0000
+110011111 -> ['DEX', 'FPV', 'MOV', 'NTZ', 'PAX', 'RBV', 'RDV'] | E = -5.6500
+010011011 -> ['FPV', 'MOV', 'NTZ', 'RBV', 'RDV'] | E = -5.0000
+110011001 -> ['DEX', 'FPV', 'MOV', 'NTZ', 'RDV'] | E = -5.0000

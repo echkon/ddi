@@ -1,0 +1,11 @@
+drug_i,drug_j,kind,weight
+A,B,harm,0.90
+C,D,harm,0.55
+A,E,harm,0.80
+A,D,harm,0.95
+B,F,harm,0.75
+A,C,harm,0.65
+B,E,harm,0.70
+B,D,synergy,0.60
+D,F,synergy,0.58
+C,E,synergy,0.39

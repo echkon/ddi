@@ -1,0 +1,17 @@
+=== BRUTE FORCE SCO RESULT ===
+
+Gamma = 2.5
+Mu = 5.0
+K = 3
+N = 9
+Total configurations = 512
+
+All ground-state configurations:
+000010011 -> ['MOV', 'RBV', 'RDV'] | E = -2.3500
+
+Top 5 solutions:
+000010011 -> ['MOV', 'RBV', 'RDV'] | E = -2.3500
+000010101 -> ['MOV', 'PAX', 'RDV'] | E = -2.2500
+010010100 -> ['FPV', 'MOV', 'PAX'] | E = -1.8500
+000001011 -> ['NTZ', 'RBV', 'RDV'] | E = -1.8000
+010010001 -> ['FPV', 'MOV', 'RDV'] | E = -1.7500

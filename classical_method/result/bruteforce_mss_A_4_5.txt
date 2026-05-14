@@ -1,0 +1,16 @@
+=== BRUTE FORCE RESULT ===
+
+Alpha = 4.5
+N = 6
+Total configurations = 64
+
+All ground-state configurations:
+000111 -> ['D', 'E', 'F'] | E = -3.0000
+001011 -> ['C', 'E', 'F'] | E = -3.0000
+
+Top 5 solutions:
+001011 -> ['C', 'E', 'F'] | E = -3.0000
+000111 -> ['D', 'E', 'F'] | E = -3.0000
+011000 -> ['B', 'C'] | E = -2.0000
+100001 -> ['A', 'F'] | E = -2.0000
+010100 -> ['B', 'D'] | E = -2.0000

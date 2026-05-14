@@ -1,0 +1,17 @@
+=== BRUTE FORCE SCO RESULT ===
+
+Gamma = 3.5
+Mu = 5.0
+K = 4
+N = 6
+Total configurations = 64
+
+All ground-state configurations:
+001111 -> ['C', 'D', 'E', 'F'] | E = 0.9550
+
+Top 5 solutions:
+001111 -> ['C', 'D', 'E', 'F'] | E = 0.9550
+011101 -> ['B', 'C', 'D', 'F'] | E = 3.3700
+011110 -> ['B', 'C', 'D', 'E'] | E = 3.3850
+010111 -> ['B', 'D', 'E', 'F'] | E = 3.8950
+000111 -> ['D', 'E', 'F'] | E = 4.4200

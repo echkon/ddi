@@ -1,0 +1,11 @@
+drug_i,drug_j,kind,weight
+Ritonavir,Cabazitaxel,harm,0.90
+Metformin,Everolimus,harm,0.55
+Ritonavir,Erlotinib,harm,0.80
+Ritonavir,Everolimus,harm,0.95
+Topotecan,Cabazitaxel,harm,0.75
+Metformin,Ritonavir,harm,0.65
+Everolimus,Cabazitaxel,synergy,0.60
+Everolimus,Topotecan,synergy,0.58
+Erlotinib,Cabazitaxel,harm,0.70
+Erlotinib,Metformin,synergy,0.39
